@@ -1,0 +1,59 @@
+@media only screen and (max-width: 991px) {
+  body {
+    .testimonials {
+      .swiper-pagination {
+        bottom: 8px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  body {
+    .all-container {
+      section {
+        &:not(.first-banner) {
+          padding: 0 24px;
+        }
+      }
+      .first-banner {
+        text-align: center;
+        .swiper {
+          .swiper-button-next,
+          .swiper-button-prev {
+            display: none;
+          }
+          .swiper-content {
+            text-align: center;
+            margin: 0 auto;
+            .swiper-buttons {
+              justify-content: center;
+            }
+          }
+        }
+      }
+
+      .new-arrivals-images {
+        width: unset;
+        height: unset;
+      }
+    }
+    .hamburger-menu {
+      background-color: #0a0a0a;
+      border-bottom: 12px solid white;
+      z-index: 99999999;
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  body {
+    .all-container {
+      .main-section {
+        .main-title {
+          font-size: 32px;
+        }
+      }
+    }
+  }
+}
