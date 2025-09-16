@@ -77,7 +77,7 @@ export default function TestimonialsBanner() {
                   <FaStar key={i} />
                 ))}
               </div>
-              <p className="text-gray-700 mb-4 italic">"{t.comment}"</p>
+              <p className="text-gray-700 mb-4 italic">{t.comment}</p>
               <h3 className="font-semibold text-gray-900">{t.name}</h3>
               <span className="text-sm text-gray-500">{t.role}</span>
             </div>
