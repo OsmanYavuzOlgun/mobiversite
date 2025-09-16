@@ -1,0 +1,39 @@
+@use "./responsive.scss";
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+body {
+  .all-container {
+    @media only screen and (min-width: 96rem) {
+      max-width: 100%;
+    }
+    .profile-container {
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 12px 24px;
+    }
+    .checkout-container {
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 12px 24px;
+    }
+  }
+  .navigation-bar {
+    font-family: "Poppins", sans-serif;
+  }
+  .first-banner {
+    .swiper {
+      .swiper-button-prev,
+      .swiper-button-next {
+        color: #fff;
+      }
+    }
+  }
+
+  .testimonials {
+    .swiper-pagination {
+      bottom: 0;
+    }
+  }
+}
+
