@@ -26,7 +26,7 @@ export default function NewProductsBanner() {
             key={product.id}
             className="bg-gray-50 rounded-xl shadow hover:shadow-lg transition flex flex-col"
           >
-            <div className="aspect-square flex items-center justify-center bg-white rounded-lg">
+            <div className="w-full h-full rounded-t-md products-image">
               <img
                 src={product.image}
                 alt={product.title}
