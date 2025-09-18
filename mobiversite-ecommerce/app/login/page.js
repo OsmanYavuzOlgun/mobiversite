@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import api from "@/lib/api";
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -16,15 +17,22 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const res = await api.post("/auth/login", { username, password });
+
       if (res.data.token) {
         const usersRes = await api.get("/users");
         const foundUser = usersRes.data.find((u) => u.username === username);
 
-        login({
+        const userData = {
           id: foundUser?.id,
           username,
           email: foundUser?.email,
           token: res.data.token,
+        };
+        login(userData);
+
+        Cookies.set("user", JSON.stringify(userData), {
+          expires: 7,
+          path: "/",
         });
 
         router.push("/profile");
@@ -32,11 +40,10 @@ export default function LoginPage() {
         setError("Invalid username or password");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Login error:", err);
       setError("Login failed, try again.");
     }
   };
-
 
   return (
     <div className="max-w-md mx-auto mt-20 p-6 border rounded-lg shadow bg-white text-black">
@@ -76,6 +83,7 @@ export default function LoginPage() {
           Login
         </button>
       </form>
+
       <div className="mt-6 text-sm text-gray-600">
         <p className="font-semibold mb-1">Demo Users:</p>
         <ul className="list-disc list-inside">
