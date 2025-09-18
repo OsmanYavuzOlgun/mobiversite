@@ -2,7 +2,7 @@ import api from "@/lib/api";
 import ClientActions from "./ClientActions";
 
 export default async function ProductDetail({ params }) {
-  const { id } = await params;
+  const { id } = params;
   const product = await api.get(`/products/${id}`).then((res) => res.data);
 
   if (!product) {
@@ -16,7 +16,7 @@ export default async function ProductDetail({ params }) {
           <img
             src={product.image}
             alt={product.title}
-            className="w-full max-w-md h-auto object-contain rounded-lg shadow"
+            className="w-full max-w-md h-auto object-contain rounded-lg shadow products-image"
           />
         </div>
         <div className="flex-1">

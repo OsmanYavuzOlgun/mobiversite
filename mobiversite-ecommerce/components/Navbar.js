@@ -36,9 +36,8 @@ export default function Navbar() {
         {menuOpen ? <FaTimes /> : <FaBars />}
       </button>
       <div
-        className={`${
-          menuOpen ? "block" : "hidden"
-        } absolute top-16 left-0 w-full bg-black-700 text-white flex flex-col items-center gap-6 py-6 md:static md:flex md:flex-row md:bg-transparent md:w-auto md:gap-6 md:py-0 hamburger-menu`}
+        className={`${menuOpen ? "block" : "hidden"
+          } absolute top-16 left-0 w-full bg-black-700 text-white flex flex-col items-center gap-6 py-6 md:static md:flex md:flex-row md:bg-transparent md:w-auto md:gap-6 md:py-0 hamburger-menu`}
       >
         <Link
           href="/products"
@@ -93,15 +92,6 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <Link
-              href="/register"
-              className="flex items-center gap-1 hover:opacity-80"
-              onClick={() => setMenuOpen(false)}
-              aria-label="Register"
-            >
-              <FaUserPlus />
-              Register
-            </Link>
             <Link
               href="/login"
               className="flex items-center gap-1 hover:opacity-80"

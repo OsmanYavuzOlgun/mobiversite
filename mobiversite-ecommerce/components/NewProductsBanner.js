@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "@/lib/api"; // axios instance with baseURL: https://fakestoreapi.com
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
 
@@ -9,7 +9,7 @@ export default function NewProductsBanner() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/products?_limit=3").then((res) => {
+    api.get("/products?limit=3").then((res) => {
       setProducts(res.data);
     });
   }, []);
@@ -30,7 +30,7 @@ export default function NewProductsBanner() {
               <img
                 src={product.image}
                 alt={product.title}
-                className="object-cover w-full h-full rounded-t-md new-arrivals-images"
+                className="object-cover w-full h-full rounded-t-md new-arrivals-images products-image"
               />
             </div>
             <div className="p-2">
@@ -45,21 +45,12 @@ export default function NewProductsBanner() {
                 <span className="text-lg font-bold text-gray-900">
                   ${product.price}
                 </span>
-                {product.oldPrice && (
-                  <>
-                    <span className="line-through text-gray-400 text-sm">
-                      ${product.oldPrice}
-                    </span>
-                    <span className="text-red-500 text-xs font-semibold">
-                      -{product.discount}%
-                    </span>
-                  </>
-                )}
               </div>
             </div>
           </div>
         ))}
       </div>
+
       <div className="flex justify-center mt-4 mb-8">
         <Link
           href="/products"

@@ -30,34 +30,44 @@ export default function CardPage() {
 
     setIsCheckingOut(true);
 
-    const newOrder = {
-      id: Date.now(),
-      date: new Date().toISOString(),
-      items: card,
-      total,
-      status: "completed",
+    const cartPayload = {
+      userId: user.id,
+      date: new Date().toISOString().split("T")[0],
+      products: card.map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+      })),
     };
 
     try {
-      const currentUser = await api
-        .get(`/users/${user.id}`)
-        .then((res) => res.data);
+      const res = await api.post("/carts", cartPayload);
 
-      await api.post("/orders", newOrder);
-      await api.patch(`/users/${user.id}`, {
-        orders: [...(currentUser.orders || []), newOrder],
-      });
+      const savedOrder = {
+        ...res.data,
+        userId: user.id,
+        date: cartPayload.date,
+        products: cartPayload.products,
+        total,
+        status: "completed",
+      };
+
+      // 🟢 LocalStorage’da orders array olarak sakla
+      const storedOrders = JSON.parse(localStorage.getItem("orders")) || [];
+      localStorage.setItem("orders", JSON.stringify([...storedOrders, savedOrder]));
+
+      console.log("Checkout success:", savedOrder);
 
       setTimeout(() => {
         clearCard();
         setIsCheckingOut(false);
-        router.push(`/thank-you?orderId=${newOrder.id}`);
+        router.push(`/thank-you?orderId=${res.data.id}`);
       }, 800);
     } catch (err) {
       setIsCheckingOut(false);
       console.error("Checkout failed:", err);
     }
   };
+
 
   if (isCheckingOut) {
     return (
@@ -111,7 +121,7 @@ export default function CardPage() {
 
               <div className="flex items-center gap-3">
                 <button
-                  className="px-2 py-1 bg-gray-200 rounded"
+                  className="px-2 py-1 bg-gray-200 rounded cursor-pointer"
                   onClick={() =>
                     updateQuantity(item.id, Math.max(item.quantity - 1, 1))
                   }
@@ -120,7 +130,7 @@ export default function CardPage() {
                 </button>
                 <span>{item.quantity}</span>
                 <button
-                  className="px-2 py-1 bg-gray-200 rounded"
+                  className="px-2 py-1 bg-gray-200 rounded cursor-pointer"
                   onClick={() => updateQuantity(item.id, item.quantity + 1)}
                 >
                   +
@@ -141,28 +151,21 @@ export default function CardPage() {
 
       <div className="bg-white shadow rounded-lg p-6 h-fit">
         <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-
         <div className="flex justify-between text-sm mb-2">
           <span>Subtotal</span>
           <span>${subtotal.toFixed(2)}</span>
         </div>
-        <div className="flex justify-between text-sm mb-2 text-red-500">
-          <span>Discount (-20%)</span>
-          <span>- ${discount.toFixed(2)}</span>
-        </div>
         <div className="flex justify-between text-sm mb-4">
           <span>Delivery Fee</span>
-          <span>${deliveryFee.toFixed(2)}</span>
+          <span>$0</span>
         </div>
-
         <div className="flex justify-between text-lg font-bold mb-6">
           <span>Total</span>
-          <span>${total.toFixed(2)}</span>
+          <span>${subtotal.toFixed(2)}</span>
         </div>
-
         <button
           onClick={handleCheckout}
-          className="w-full bg-black text-white py-3 rounded-lg flex justify-center items-center gap-2 hover:bg-gray-800"
+          className="w-full bg-black text-white py-3 rounded-lg flex justify-center items-center gap-2 hover:bg-gray-800 cursor-pointer"
         >
           Go to Checkout →
         </button>

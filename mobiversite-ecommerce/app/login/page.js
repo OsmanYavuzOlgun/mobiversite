@@ -15,21 +15,28 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const users = await api.get("/users").then((res) => res.data);
-      const found = users.find(
-        (u) => u.username === username && u.password === password
-      );
+      const res = await api.post("/auth/login", { username, password });
+      if (res.data.token) {
+        const usersRes = await api.get("/users");
+        const foundUser = usersRes.data.find((u) => u.username === username);
 
-      if (found) {
-        login(found);
+        login({
+          id: foundUser?.id,
+          username,
+          email: foundUser?.email,
+          token: res.data.token,
+        });
+
         router.push("/profile");
       } else {
         setError("Invalid username or password");
       }
     } catch (err) {
+      console.error(err);
       setError("Login failed, try again.");
     }
   };
+
 
   return (
     <div className="max-w-md mx-auto mt-20 p-6 border rounded-lg shadow bg-white text-black">
@@ -45,6 +52,7 @@ export default function LoginPage() {
             className="w-full border px-3 py-2 rounded"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            placeholder="örn: johnd"
             required
           />
         </div>
@@ -56,17 +64,31 @@ export default function LoginPage() {
             className="w-full border px-3 py-2 rounded"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="örn: m38rmF$"
             required
           />
         </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 cursor-pointer"
         >
           Login
         </button>
       </form>
+
+      {/* Demo kullanıcı bilgileri */}
+      <div className="mt-6 text-sm text-gray-600">
+        <p className="font-semibold mb-1">Demo Users:</p>
+        <ul className="list-disc list-inside">
+          <li>
+            <strong>johnd</strong> / <code>m38rmF$</code>
+          </li>
+          <li>
+            <strong>mor_2314</strong> / <code>83r5^_</code>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

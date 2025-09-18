@@ -6,7 +6,7 @@ import Testimonials from "@/components/Testimonials";
 export default function HomePage() {
   return (
     <>
-      <section className="text-center mt-8 mb-8 main-section">
+      <section className="text-center py-12 main-section">
         <h1 className="text-5xl font-extrabold mb-4 text-blue-700 main-title">
           Welcome to <span className="text-white">Mobiversite</span>
         </h1>
@@ -23,13 +23,6 @@ export default function HomePage() {
             aria-label="products"
           >
             Shop Now
-          </Link>
-          <Link
-            href="/login"
-            className="bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-900 transition"
-            aria-label="login"
-          >
-            Login
           </Link>
         </div>
       </section>

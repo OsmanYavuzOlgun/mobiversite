@@ -1,24 +1,42 @@
 # Mobiversite E-Commerce
 
-Mobiversite is a **Next.js 13+ E-Commerce demo project** built with **JavaScript (no TypeScript)**, **TailwindCSS + custom SCSS**, and a **JSON Server backend**.  
+Mobiversite is a **Next.js 15 E-Commerce project** built with **JavaScript** and **TailwindCSS**.  
 It demonstrates a modern, accessible, and user-friendly online store experience.
 
 ---
 
+## First of All
+
+This repository demonstrates the **FakeStore API-based solution** for the Mobiversite assignment.  
+However, a separate zipped project is also included, which contains the **JSON Server-based implementation** with:
+
+- Local **JSON Server** setup (`/products`, `/users`, `/orders`)
+- Full **register + login** flow (user creation & cookie-based authentication)
+- Middleware-protected routes for `/profile`, `/wishlist`, and order-related APIs
+
+➡️ In that version, you can simply run:
+
+```bash
+npm run server
+```
+
+This will start the JSON Server at http://localhost:5000
+, serving all endpoints locally with persistent data.
+
 ## Features
 
-- **Authentication** (Register / Login / Logout) with cookies  
-- **Global state management** using React **Context API**  
-- **Persistent Card & Wishlist** stored in cookies/local state  
-- **Product listing** with pagination (`Show More` button)  
-- **Responsive design** (hamburger navigation, banners, testimonials, etc.)  
-- **Checkout flow** with order history saved per user  
-- **Thank You page** after checkout with order ID  
-- **Accessibility checked** with **Lighthouse** and **WAVE Tool** → only minor *design-related* issues, accessibility in all pages scored **96+**. (only some contrast design issues)  
+- **Authentication** (Login / Logout) with cookies + middleware route protection
+- **Global state management** using React **Context API**
+- **Persistent Cart & Wishlist** stored in cookies/local state
+- **Product listing** with real API integration (`fakestoreapi.com`)
+- **Responsive design** (hamburger navigation, banners, testimonials, etc.)
+- **Checkout flow** with order history shown in Profile
+- **Thank You page** after checkout with order ID
+- **Accessibility checked** with **Lighthouse** and **WAVE Tool** → all scored **96+** (only some design-related contrast issues)
 
 ---
 
-##  Installation & Setup
+## Installation & Setup
 
 Clone the repository and install dependencies:
 
@@ -34,81 +52,86 @@ Start the **Next.js development server**:
 npm run dev
 ```
 
-Start the **JSON server** (backend API):
-
-```bash
-npm run server
-```
-
-The JSON server will run on **http://localhost:5000**, serving:
-- `/products` → product catalog
-- `/users` → registered users
-- `/orders` → placed orders
-
----
+The app will run on **http://localhost:3000**.  
+Products, carts, and user data are fetched from **[FakeStoreAPI](https://fakestoreapi.com/)**.
 
 ---
 
 ## Design Decisions & Trade-offs
 
-- **TailwindCSS + SCSS**:  
-  Tailwind was used for rapid prototyping and consistency, while SCSS handled custom responsive rules (e.g., media queries for `max-width: 991px`).  
-- **JSON Server instead of full backend**:  
-  Lightweight, fast to set up, easy to mock real API behavior.  
-- **Context API vs Redux**:  
-  Chosen for simplicity and smaller project scope. It avoids boilerplate while still allowing global state management.  
-- **Accessibility**:  
-  Tested with **Lighthouse** (Performance, Accessibility, Best Practices, SEO all scored 96+).  
-  WAVE reports only **design-related contrast issues**, no functional accessibility problems.  
-- **Code Desing and Reusability**:  
+- **TailwindCSS** for rapid prototyping and consistency.
+- **FakeStore API** chosen instead of `json-server` for smoother **Vercel deployment** (no external DB hosting needed).
+- **Context API vs Redux**: Context chosen for simplicity and smaller project scope.
+- **Accessibility** tested with **Lighthouse** and **WAVE Tool**.
+- **Register flow removed** because FakeStore doesn’t support new user creation. Authentication works with provided demo accounts.
 
 ---
 
-##  Authentication
+## Authentication
 
-- Registration creates a new user in `/users` with a **stringified `id`**, `orders`, and `wishlist`.  
-- Login stores user info in cookies (`js-cookie`).  
-- Logout clears cookies and resets context state.  
-- Profile page fetches fresh user data from the backend by `id`.
+- **Login** authenticates against FakeStore API’s `/auth/login`.
+- Session is stored as a cookie (`js-cookie`).
+- **Middleware** (`middleware.js`) protects `/profile` and `/wishlist` routes.
+- **Logout** clears cookies and resets context state.
 
 ---
 
 ## State Management
 
-- **AuthContext** → Manages login, logout, and register flows.  
-- **CardContext** → Holds card items, updates quantities, persists state.  
-- **WishlistContext** → Manages wishlist add/remove actions.  
-- Toast notifications (`react-hot-toast`) confirm add/remove actions.  
+- **AuthContext** → Manages login/logout flows and cookies.
+- **CartContext** → Holds cart items, updates quantities, persists state.
+- **WishlistContext** → Manages wishlist add/remove actions.
+- Toast notifications (`react-hot-toast`) confirm add/remove actions.
 
 ---
 
 ## API Communication
 
-- **Axios** is used for all requests to the JSON server.  
+- **Axios** is used for all API requests.
+- Base URL is configurable via `NEXT_PUBLIC_API_URL`.
+- By default, project uses **FakeStore API** (`https://fakestoreapi.com`).
 
 ---
 
-##  User Case Scenario
+## User Case Scenario
 
-1. A visitor opens the homepage and sees **banner promotions**, **new arrivals**, and **customer testimonials**.  
-2. They browse **Products**, add some items to **Wishlist** and **Card**.  
-3. They **register an account**, then log in automatically.  
-4. They go to **Card**, adjust quantities, and press **Checkout**.  
-5. They are redirected to a **Thank You page** with their order ID.  
-6. Returning later, they log in again and see all their past **Orders** in **Profile**.  
----
-
-## 📊 Accessibility & Performance
-
-- **Lighthouse scores:**  
-- **WAVE Tool results:**  
-  - Accessibility: **96+**  
-  - Only *minor contrast/design issues*  
-  - No structural or semantic accessibility issues  
+1. A visitor opens the homepage and sees **banner promotions**, **new arrivals**, and **customer testimonials**.
+2. They browse **Products**, add some items to **Wishlist** and **Cart**.
+3. They log in with FakeStore demo credentials (see below).
+4. They go to **Cart**, adjust quantities, and press **Checkout**.
+5. They are redirected to a **Thank You page** with their order ID.
+6. Returning later, they log in again and see their past **Orders** in **Profile**.
 
 ---
 
-## ✅ Conclusion
+## 🔐 Demo Login Accounts
+
+Use these test accounts from **FakeStore API**:
+
+- **User 1**
+
+  - Username: `mor_2314`
+  - Password: `83r5^_`
+
+- **User 2**
+  - Username: `johnd`
+  - Password: `m38rmF$`
+
+---
+
+## Accessibility & Performance
+
+- **Lighthouse scores:** 96+
+- **WAVE Tool results:**
+  - Accessibility: **96+**
+  - Only _minor contrast/design issues_
+  - No structural or semantic accessibility issues
+
+---
+
+## Conclusion
 
 Mobiversite is a **modern, responsive, and user-friendly e-commerce demo** with strong accessibility, clear architecture, and practical design features.  
-It shows how to combine **Next.js app router**, **Context API**, **Axios**, and **JSON Server** into a cohesive project.
+It shows how to combine **Next.js app router**, **Context API**, **Axios**, and **FakeStore API** into a cohesive project.
+
+---

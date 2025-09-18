@@ -43,7 +43,7 @@ export default function Banner() {
   ];
 
   return (
-    <section className="relative w-full first-banner ">
+    <section className="relative w-full first-banner py-12 ">
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
         autoplay={{ delay: 3500, disableOnInteraction: false }}

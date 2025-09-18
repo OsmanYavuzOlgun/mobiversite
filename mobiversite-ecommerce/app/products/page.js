@@ -49,7 +49,7 @@ export default function ProductsPage() {
               <img
                 src={product.image}
                 alt={product.title}
-                className="w-full h-full rounded-t-md"
+                className="w-full h-full rounded-t-md products-image"
               />
             </Link>
 

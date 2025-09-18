@@ -46,7 +46,7 @@ export default function WishlistPage() {
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-full h-full rounded-t-md object-cover new-arrivals-images"
+                className="w-full h-full rounded-t-md object-cover new-arrivals-images products-image"
               />
             </div>
 

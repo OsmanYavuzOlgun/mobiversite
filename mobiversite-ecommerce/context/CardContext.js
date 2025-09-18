@@ -21,11 +21,11 @@ export function CardProvider({ children }) {
       if (existing) {
         return prev.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + product.quantity }
             : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, product];
     });
   };
 
