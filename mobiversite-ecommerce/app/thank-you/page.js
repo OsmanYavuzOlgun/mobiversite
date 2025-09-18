@@ -15,13 +15,6 @@ export default function ThankYouPage() {
       <p className="text-lg text-gray-600 mb-4">
         Your order has been placed successfully.
       </p>
-
-      {orderId && (
-        <p className="text-md text-gray-700 mb-8">
-          Your Order ID: <span className="font-bold">#{orderId}</span>
-        </p>
-      )}
-
       <div className="flex gap-4">
         <Link
           href="/products"
