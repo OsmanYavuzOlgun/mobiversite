@@ -11,6 +11,8 @@ export default function ClientActions({ product }) {
   const { addToWishlist } = useWishlist();
   const [quantity, setQuantity] = useState(1);
 
+  if (!product) return null;
+
   const handleAddToCard = () => {
     addToCard({ ...product, quantity });
     toast.success(`${product.title} added to card 🛒`);

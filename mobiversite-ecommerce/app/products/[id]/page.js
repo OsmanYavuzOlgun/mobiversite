@@ -3,9 +3,14 @@ import ClientActions from "./ClientActions";
 
 export default async function ProductDetail({ params }) {
   const { id } = params;
-  const product = await api.get(`/products/${id}`).then((res) => res.data);
+  let product = null;
+  try {
+    product = await api.get(`/products/${id}`).then((res) => res.data);
+  } catch (e) {
+    console.error("Product fetch failed:", e);
+  }
 
-  if (!product) {
+  if (!product || !product.id) {
     return <h1 className="text-center mt-10">Product not found</h1>;
   }
 

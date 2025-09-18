@@ -7,6 +7,8 @@ export default function Client({ product }) {
   const { addToCard } = useCard();
   const { addToWishlist } = useWishlist();
 
+  if (!product) return null;
+
   return (
     <div className="mt-4 flex gap-4">
       <button
