@@ -51,7 +51,6 @@ export default function CardPage() {
         status: "completed",
       };
 
-      // 🟢 LocalStorage’da orders array olarak sakla
       const storedOrders = JSON.parse(localStorage.getItem("orders")) || [];
       localStorage.setItem("orders", JSON.stringify([...storedOrders, savedOrder]));
 

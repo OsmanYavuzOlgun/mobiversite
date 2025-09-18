@@ -76,8 +76,6 @@ export default function LoginPage() {
           Login
         </button>
       </form>
-
-      {/* Demo kullanıcı bilgileri */}
       <div className="mt-6 text-sm text-gray-600">
         <p className="font-semibold mb-1">Demo Users:</p>
         <ul className="list-disc list-inside">

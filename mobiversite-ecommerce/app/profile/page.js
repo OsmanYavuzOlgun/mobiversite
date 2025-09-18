@@ -18,23 +18,16 @@ export default function ProfilePage() {
       }
 
       try {
-        // 🔹 Kullanıcı bilgileri
         const resUser = await api.get(`/users/${user.id}`);
         setProfile(resUser.data);
-
-        // 🔹 API'den carts
         const resCarts = await api.get(`/carts/user/${user.id}`);
         let carts = resCarts.data || [];
-
-        // 🔹 LocalStorage'daki orders'ı ekle
         const localOrders = JSON.parse(localStorage.getItem("orders")) || [];
         const userLocalOrders = localOrders.filter(
           (o) => o.userId === user.id
         );
 
         carts = [...carts, ...userLocalOrders];
-
-        // 🔹 Ürün detaylarını zenginleştir
         const enrichedOrders = await Promise.all(
           carts.map(async (cart) => {
             const productsWithDetails = await Promise.all(
@@ -122,7 +115,7 @@ export default function ProfilePage() {
 
               return (
                 <div
-                  key={`${order.id}-${idx}`}   // 🔑 uniq key
+                  key={`${order.id}-${idx}`}
                   className="border rounded-lg p-4 shadow-sm bg-gray-50"
                 >
                   <p className="text-sm text-gray-500">
@@ -132,7 +125,7 @@ export default function ProfilePage() {
                   <div className="divide-y">
                     {order.products.map((p, pIdx) => (
                       <div
-                        key={`${order.id}-product-${pIdx}`}  // 🔑 ürünlerde de uniq key
+                        key={`${order.id}-product-${pIdx}`}
                         className="flex justify-between items-center py-2 text-sm"
                       >
                         <div className="flex-1">
