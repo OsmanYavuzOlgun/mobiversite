@@ -3,11 +3,15 @@ import ClientActions from "./ClientActions";
 
 export default async function ProductDetail({ params }) {
   const { id } = params;
+  console.log("🔎 ProductDetail params:", params);
+
   let product = null;
   try {
-    product = await api.get(`/products/${id}`).then((res) => res.data);
+    const res = await api.get(`/products/${id}`);
+    product = res.data;
+    console.log("✅ Product fetched:", product);
   } catch (e) {
-    console.error("Product fetch failed:", e);
+    console.error("❌ Product fetch failed:", e);
   }
 
   if (!product || !product.id) {
